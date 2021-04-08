@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html lang="en" >
+<head >
+  <meta charset="UTF-8" >
+  <title >Title</title >
+  <script src="http://www.duanlonglong.com/link/gaoqing/html2canvas.min.js" ></script >
+  <script src="https://cdn.bootcdn.net/ajax/libs/jquery/3.6.0/jquery.min.js" ></script >
+
+  <style >
+      #root {
+          width: 100%;
+          height: 100%;
+      }
+      #TargetNode {
+          width: 30rem;
+          height: 30rem;
+          background: red;
+          margin-bottom: 20px;
+      }
+      #downpdf {
+          width: 10rem;
+          height: 3rem;
+          font-size: 20px;
+      }
+      .img {
+          margin-top: 100px;
+      }
+  </style >
+
+</head >
+<body >
+<div id="root">
+  <div>
+    <div id="TargetNode">
+      这个是图片内容
+    </div >
+    <img class="img" src="" alt="" >
+  </div >
+  <button id="downpdf" >点击生成图片</button >
+</div>
+
+
+<script >
+    $("#downpdf").on("click", function () {
+        var canvas2 = document.createElement("canvas");
+        let _canvas = document.querySelector('#TargetNode');
+        var w = parseInt(window.getComputedStyle(_canvas).width);
+        var h = parseInt(window.getComputedStyle(_canvas).height);
+//将canvas画布放大若干倍，然后盛放在较小的容器内，就显得不模糊了
+        canvas2.width = w * 2;
+        canvas2.height = h * 2;
+        canvas2.style.width = w + "px";
+        canvas2.style.height = h + "px";
+//可以按照自己的需求，对context的参数修改,translate指的是偏移量
+        var context = canvas2.getContext("2d");
+        context.scale(2, 2);
+        html2canvas(document.querySelector('#TargetNode'), {
+            canvas: canvas2
+        }).then(function (canvas) {
+            pic = canvas;
+            console.log(pic.toDataURL())
+            $('.img').attr('src', canvas.toDataURL("image/jpeg"));
+        });
+    });
+</script >
+</body >
+</html >
